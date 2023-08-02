@@ -50,6 +50,6 @@ public final class ProcessInfo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(processName, pid);
+        return Objects.hash(processName, pid);//
     }
 }
