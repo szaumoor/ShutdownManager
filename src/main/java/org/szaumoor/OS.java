@@ -1,3 +1,5 @@
+package org.szaumoor;
+
 public enum OS {
     WINDOWS("shutdown /s /t ", "shutdown /a", "tasklist /fo csv", 2),
     UNIX("shutdown -h +", "shutdown -c", "ps -e", 1);

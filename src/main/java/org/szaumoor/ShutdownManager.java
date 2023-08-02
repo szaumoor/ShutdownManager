@@ -1,3 +1,5 @@
+package org.szaumoor;
+
 import java.io.*;
 import java.time.Duration;
 import java.util.List;
@@ -62,7 +64,7 @@ public enum ShutdownManager {
         else if (os.contains("nix") || os.contains("nux") || os.contains("mac")) { // if it's unix
             underlyingOS = OS.UNIX;
         } else {
-            throw new RuntimeException("OS not recognized");
+            throw new RuntimeException("org.szaumoor.OS not recognized");
         }
     }
 }

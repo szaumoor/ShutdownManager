@@ -1,4 +1,5 @@
-import java.util.List;
+package org.szaumoor;
+
 import java.util.Objects;
 
 public final class ProcessInfo {

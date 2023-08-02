@@ -1,3 +1,5 @@
+package org.szaumoor;
+
 import java.time.Duration;
 import java.util.List;
 import java.util.Scanner;
