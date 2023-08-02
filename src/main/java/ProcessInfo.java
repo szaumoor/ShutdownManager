@@ -18,10 +18,9 @@ public final class ProcessInfo {
     }
 
     private void parseWindowsLine(final String line) {
-        var splitTokens = line.trim().split(",");
-       // processName = splitTokens[0];
-       // pid = splitTokens[1];
-        System.out.println(List.of(splitTokens));
+        var splitTokens = line.trim().replaceAll("\"", "").split(",");
+        processName = splitTokens[0];
+        pid = splitTokens[1];
     }
 
     public String getProcessName() {
