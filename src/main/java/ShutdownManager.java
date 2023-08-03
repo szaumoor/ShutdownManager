@@ -38,7 +38,7 @@ public enum ShutdownManager {
             boolean processIsRunning = getListOfTasks().contains(process);
             if (!processIsRunning) {
                 System.out.println("Process no longer found, shutdown will start in 60 seconds");
-                //shutdownAfterDelay(Duration.ofSeconds(60));
+                shutdownAfterDelay(Duration.ofSeconds(60));
                 service.shutdown();
             } else System.out.println("Process is still going on.");
         }, 0, durationBetweenChecks.toMinutes(), TimeUnit.MINUTES);
