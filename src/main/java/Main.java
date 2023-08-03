@@ -1,10 +1,10 @@
 import java.time.Duration;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
     public static void main(String[] args) {
-        var p = new ProcessInfo("System Idle Process              0 Services                   0          8 K", OS.WINDOWS);
         final ShutdownManager manager = ShutdownManager.INSTANCE;
         final Scanner scanner = new Scanner(System.in);
         System.out.println("Do you want to...\n1. Shutdown the computer on a timer\n2. Shutdown after a process stops\n");
@@ -32,8 +32,9 @@ public class Main {
             manager.shutdownAfterDelay(Duration.ofMinutes(input));
         } else {
             System.out.println("Here's a numbered list of the current tasks: \n");
-            List<String> listOfTasks = manager.getListOfTasks(true);
-            listOfTasks.forEach(System.out::println);
+            List<ProcessInfo> listOfTasks = manager.getListOfTasks();
+            var counter = new AtomicInteger(1);
+            listOfTasks.forEach(s -> System.out.println(counter.getAndIncrement() + "--> " + s));
             System.out.print("\nType the number in this list associated with the task you want to track: ");
             int input;
             while (true){
@@ -49,9 +50,8 @@ public class Main {
                 }
                 break;
             }
-            String choice = listOfTasks.get(input-1);
-            String processName = choice.substring(choice.indexOf(".") + 2);
-            System.out.println("You selected: '" + processName + "'");
+            final ProcessInfo choice = listOfTasks.get(input-1);
+            System.out.println("You selected: '" + choice + "'");
             System.out.print("Monitoring that process now. How many minutes between each check (1-30 minutes)? ");
             int durationBetweenChecks;
             while (true){
@@ -67,7 +67,7 @@ public class Main {
                 }
                 break;
             }
-            manager.shutdownAfterProcessIsOver(processName, Duration.ofMinutes(durationBetweenChecks));
+            manager.shutdownAfterProcessIsOver(choice, Duration.ofMinutes(durationBetweenChecks));
         }
         scanner.close();
     }

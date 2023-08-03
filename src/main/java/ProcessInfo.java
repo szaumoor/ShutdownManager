@@ -28,16 +28,8 @@ public final class ProcessInfo {
         return processName;
     }
 
-    public void setProcessName(String processName) {
-        this.processName = processName;
-    }
-
     public String getPid() {
         return pid;
-    }
-
-    public void setPid(String pid) {
-        this.pid = pid;
     }
 
     @Override
@@ -51,5 +43,10 @@ public final class ProcessInfo {
     @Override
     public int hashCode() {
         return Objects.hash(processName, pid);//
+    }
+
+    @Override
+    public String toString() {
+        return "PID: " + pid + ", " + "Name: " + processName;
     }
 }

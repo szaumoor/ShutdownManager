@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public enum ShutdownManager {
     INSTANCE;
@@ -15,15 +14,14 @@ public enum ShutdownManager {
         resolveOS();
     }
 
-    public List<String> getListOfTasks(boolean numbered) {
+    public List<ProcessInfo> getListOfTasks() {
         try {
             Process exec = Runtime.getRuntime().exec(underlyingOS.taskListCommand);
             InputStream inputStream = exec.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            AtomicInteger counter = new AtomicInteger(1);
-            List<String> listOfTasks = reader.lines()
+            List<ProcessInfo> listOfTasks = reader.lines()
                     .skip(underlyingOS.linesToSkip)
-                    .map(s -> numbered ? counter.getAndIncrement() + ". " + s : s)
+                    .map(s -> new ProcessInfo(s, underlyingOS))
                     .toList();
             reader.close();
             inputStream.close();
@@ -33,14 +31,14 @@ public enum ShutdownManager {
         }
     }
 
-    public void shutdownAfterProcessIsOver(final String process, final Duration durationBetweenChecks) {
+    public void shutdownAfterProcessIsOver(final ProcessInfo process, final Duration durationBetweenChecks) {
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
         service.scheduleAtFixedRate(() -> {
-            System.out.println("\nChecking status of task: ");
-            boolean processIsRunning = getListOfTasks(false).contains(process);
+            System.out.print("\nChecking status of task: ");
+            boolean processIsRunning = getListOfTasks().contains(process);
             if (!processIsRunning) {
                 System.out.println("Process no longer found, shutdown will start in 60 seconds");
-                shutdownAfterDelay(Duration.ofSeconds(60));
+                //shutdownAfterDelay(Duration.ofSeconds(60));
                 service.shutdown();
             } else System.out.println("Process is still going on.");
         }, 0, durationBetweenChecks.toMinutes(), TimeUnit.MINUTES);
