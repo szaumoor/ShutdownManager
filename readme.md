@@ -8,5 +8,4 @@ This command line application allows you to time a shutdown of your Windows or U
 A Unix or Windows system with at least Java 8 installed.
 
 ## How to use
-Execute the bat file if using Windows or the sh file if in Unix (only tested on Linux).
-You can also execute the .jar through the terminal with the following command: java -jar ShutdownManager.jar
+Execute the bat file if using Windows or the sh file if in Unix (only tested on Linux). You can also execute the .jar through the terminal with the following command: java -jar ShutdownManager.jar
