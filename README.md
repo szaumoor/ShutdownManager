@@ -13,4 +13,8 @@ Execute the bat file if using Windows or the sh file if in Unix (only tested on 
 ```
 java -jar ShutdownManager.jar
 ```
+This program must be active for these functionalities to work. It does not use the underlying system's task scheduler. It simply checks whether the appropriate conditions
+for a shutdown are true after a certain set interval of time, and if so, it executes the shutdown command. Otherwise, it continues checking. This means you can close the program
+at any point before the condition is true, and your computer will continue running as if nothing happened.
+
 Also please bear in mind that the script must be in the same folder as the .jar file for it to work. 
